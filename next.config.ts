@@ -1,7 +1,13 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
+
+const repoBasePath = process.env.NEXT_PUBLIC_BASE_PATH || ""
+const assetPrefix = repoBasePath ? `${repoBasePath}/` : undefined
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  output: "export",
+  basePath: repoBasePath,
+  assetPrefix,
+  trailingSlash: true,
+}
 
-export default nextConfig;
+export default nextConfig
