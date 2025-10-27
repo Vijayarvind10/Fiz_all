@@ -81,12 +81,10 @@ Action cards:
 
 The repository bundles a lightweight Jekyll site in `/docs` so you can host marketing documentation on GitHub Pages while iterating on the Next.js app locally.
 
-1. Push your changes to GitHub.
-2. In **Settings → Pages**, choose:
-   - **Branch:** `main`
-   - **Folder:** `/docs`
-3. Click **Save**. Pages will publish to `https://Vijayarvind10.github.io/Fiz_all` (allow a few minutes).
-4. Edit `docs/index.md` or `docs/about.md` for further content updates. Layout lives in `docs/_layouts/default.html`.
+1. Run `npm run deploy` to output a static build into `/docs` with the correct GitHub Pages base path.
+2. Commit and push the generated files to `main`.
+3. In **Settings → Pages**, set the source to `main` + `/docs` (one-time setup).
+4. GitHub will publish the Next.js build to `https://Vijayarvind10.github.io/Fiz_all` in a few minutes.
 
 > Tip: the Next.js app itself is meant for Vercel, Netlify, or any host that supports Node.js. GitHub Pages here is for documentation/marketing handoff only.
 
