@@ -34,7 +34,7 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/55 backdrop-blur-sm px-4 py-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(44,25,16,0.55)] backdrop-blur-md px-4 py-6"
           role="dialog"
           aria-modal="true"
         >
@@ -43,24 +43,26 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.96, opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="flex w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
+            className="relative flex w-full max-w-2xl flex-col overflow-hidden rounded-[2.5rem] border border-[#cba578]/70 bg-[#fff7ea]/95 shadow-[0_40px_90px_rgba(39,18,12,0.4)]"
           >
-            <div className="flex items-start justify-between border-b border-slate-200 px-6 py-5">
+            <div className="pointer-events-none absolute -top-20 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full border border-[#d9b58b]/60 bg-[#fff3e1]/60 blur-2xl" />
+            <div className="pointer-events-none absolute inset-0 timeline-ruler opacity-15" />
+            <div className="flex items-start justify-between border-b border-[#d9b58b]/70 bg-[#f6d9b1]/50 px-6 py-5">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-indigo-500">
+                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7a452d]">
                   Next step
                 </p>
-                <h2 className="mt-2 text-lg font-semibold text-slate-900">
+                <h2 className="mt-2 text-xl font-semibold text-[#3b1f16]">
                   {obligation.title}
                 </h2>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm leading-relaxed text-[#6d4630]">
                   {obligation.description}
                 </p>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
-                className="rounded-full text-slate-500 hover:text-slate-900"
+                className="rounded-full border border-transparent text-[#7a452d] hover:border-[#cba578]/60 hover:bg-[#fff5e7] hover:text-[#3b1f16]"
                 onClick={onClose}
                 aria-label="Close"
               >
@@ -68,27 +70,27 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
               </Button>
             </div>
 
-            <div className="flex-1 space-y-4 overflow-y-auto px-6 py-5 text-sm text-slate-700">
+            <div className="flex-1 space-y-4 overflow-y-auto px-6 py-5 text-sm text-[#5f3826]">
               {obligation.actionType === "email_template" && (
                 <section className="space-y-3">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#805239]">
                       Email subject
                     </p>
-                    <div className="mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700">
+                    <div className="mt-2 rounded-[1.5rem] border border-[#d9b58b]/70 bg-[#fff4df]/80 px-4 py-3 text-[#5f3826] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
                       {obligation.actionPayload.emailSubject}
                     </div>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#805239]">
                       Email body
                     </p>
-                    <div className="mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 leading-relaxed">
+                    <div className="mt-2 rounded-[1.5rem] border border-[#d9b58b]/70 bg-[#fffaf1]/90 px-4 py-3 text-[#5f3826] leading-relaxed shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
                       {obligation.actionPayload.emailBody}
                     </div>
                   </div>
                   <Button
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 text-sm font-semibold text-white hover:bg-slate-800"
+                    className="flex w-full items-center justify-center gap-3 rounded-full border border-[#8f6040]/70 bg-[#432015] px-5 py-3 text-sm font-semibold uppercase tracking-[0.28em] text-[#fff4df] shadow-[0_12px_24px_rgba(67,32,21,0.3)] hover:bg-[#5d2f1e]"
                     onClick={() =>
                       handleCopy(
                         `${obligation.actionPayload.emailSubject ?? ""}\n\n${
@@ -105,8 +107,8 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
 
               {obligation.actionType === "call_script" && (
                 <section className="space-y-3">
-                  <header className="flex items-center gap-2 text-sm font-semibold text-slate-800">
-                    <Phone className="size-4 text-indigo-500" />
+                  <header className="flex items-center gap-2 text-sm font-semibold text-[#3b1f16]">
+                    <Phone className="size-4 text-[#a46443]" />
                     60-second call script
                   </header>
                   <ol className="space-y-2">
@@ -114,14 +116,14 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
                       (line, idx) => (
                         <li
                           key={idx}
-                          className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700"
+                          className="rounded-[1.5rem] border border-[#d9b58b]/70 bg-[#fff4df]/85 px-4 py-3 text-[#5f3826] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]"
                         >
                           {line}
                         </li>
                       ),
                     )}
                   </ol>
-                  <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-700">
+                  <p className="rounded-[1.5rem] border border-[#a8be96]/60 bg-[#e6f0d8]/80 px-4 py-3 text-xs text-[#486135]">
                     Say the line, then pause. Let the rep make the next move.
                   </p>
                 </section>
@@ -129,11 +131,11 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
 
               {obligation.actionType === "checklist" && (
                 <section className="space-y-3">
-                  <header className="flex items-center gap-2 text-sm font-semibold text-slate-800">
-                    <ListChecks className="size-4 text-indigo-500" />
+                  <header className="flex items-center gap-2 text-sm font-semibold text-[#3b1f16]">
+                    <ListChecks className="size-4 text-[#a46443]" />
                     Bring this with you
                   </header>
-                  <ul className="list-inside list-disc space-y-2 text-slate-700">
+                  <ul className="list-inside list-disc space-y-2 text-[#5f3826]">
                     {obligation.actionPayload.checklistItems?.map(
                       (item, idx) => (
                         <li key={idx}>{item}</li>
@@ -143,7 +145,7 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
                   {obligation.actionPayload.infoBlocks?.map((block, idx) => (
                     <p
                       key={idx}
-                      className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-xs text-indigo-700"
+                      className="rounded-[1.5rem] border border-[#cba578]/60 bg-[#fff4df]/85 px-4 py-3 text-xs text-[#7a452d]"
                     >
                       {block}
                     </p>
@@ -156,21 +158,21 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
                 obligation.actionPayload.infoBlocks.map((block, idx) => (
                   <p
                     key={idx}
-                    className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-xs text-indigo-700"
+                    className="rounded-[1.5rem] border border-[#cba578]/60 bg-[#fff4df]/85 px-4 py-3 text-xs text-[#7a452d]"
                   >
                     {block}
                   </p>
                 ))}
             </div>
 
-            <footer className="flex flex-col gap-3 border-t border-slate-200 bg-slate-50 px-6 py-5 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-center gap-2 text-slate-600">
-                <CalendarCheck className="size-4 text-indigo-500" />
+            <footer className="flex flex-col gap-3 border-t border-[#d9b58b]/70 bg-[#fff3e1]/80 px-6 py-5 text-xs text-[#6d4630] md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center gap-3 text-[#7a452d]">
+                <CalendarCheck className="size-4 text-[#a46443]" />
                 Pro can email this for you and store timestamped proof.
               </div>
               <Button
                 variant="outline"
-                className="rounded-full text-xs"
+                className="rounded-full border border-[#cba578]/60 bg-[#fff7ea]/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#6a3e2a] hover:bg-[#f6e1b8]"
                 onClick={onClose}
               >
                 Close
