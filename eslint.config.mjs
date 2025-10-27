@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Ignore the statically exported marketing docs bundle so lint only
+    // considers authored source files.
+    "docs/**",
   ]),
 ]);
 

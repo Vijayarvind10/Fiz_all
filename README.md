@@ -6,9 +6,9 @@ Life Admin Control Center is a premium Next.js frontend that keeps track of stre
 
 ## ✨ Highlights
 
-- **Calm marketing page** with trust messaging, pricing, and example timeline cards.
+- **Vintage hero experience** wrapped in aurora grids, vignette textures, and rotating headline letterforms that instantly set a nostalgic tone.
 - **Multi-step onboarding** that collects housing, ID, car, health, and contact details in under two minutes.
-- **Dashboard timeline** with urgency badges, one-click actions, and tasteful framer-motion animations.
+- **Dashboard timeline** with urgency badges, animated deadline halos, and tasteful framer-motion sequences.
 - **Action modal** that generates landlord letters, call scripts, and renewal checklists (with Pro upsell copy).
 - **Settings panel** for reminder channels, tracked date updates, and document vault teaser.
 - **Shared component library** built on shadcn/ui, Tailwind CSS, lucide-react, and framer-motion micro-interactions.

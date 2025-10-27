@@ -5,33 +5,33 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export const ProUpsellCard = () => {
   return (
-    <Card className="rounded-3xl border border-slate-200 bg-white shadow-sm ring-2 ring-slate-200">
-      <CardContent className="flex flex-col gap-4 p-6">
-        <div className="flex items-start gap-3">
-          <div className="rounded-2xl bg-indigo-100 p-2 text-indigo-600">
+    <Card className="relative overflow-hidden rounded-[2.25rem] border border-[#b87a4c]/70 bg-[#f6d9b1]/90 shadow-none">
+      <div className="pointer-events-none absolute -right-10 top-6 h-32 w-32 rounded-full border border-[#caa06e]/50 bg-[#fff7ea]/60 blur-2xl" />
+      <div className="pointer-events-none absolute inset-0 timeline-ruler opacity-20" />
+      <CardContent className="relative flex flex-col gap-5 p-6">
+        <div className="flex items-start gap-4">
+          <div className="floating-stamp rounded-full border border-[#a46443]/60 bg-[#fff4df]/80 p-2.5 text-[#a46443] shadow-[0_10px_20px_rgba(95,60,39,0.18)]">
             <ShieldAlert className="size-5" />
           </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <div className="space-y-2 text-[#5f3826]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#7a452d]">
               Pro safety net
             </p>
-            <h3 className="mt-1 text-base font-semibold text-slate-900">
+            <h3 className="text-lg font-semibold text-[#3b1f16]">
               Emergency SMS alerts before legal or financial deadlines
             </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              We text you 7 days and 1 day before things like license expiry,
-              lease notice cutoffs, visa renewals, and insurance lapses so you
-              never miss something expensive.
+            <p className="text-sm leading-relaxed">
+              We text you 7 days and 1 day before things like license expiry, lease notice cutoffs, visa renewals, and insurance
+              lapses so you never miss something expensive.
             </p>
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-xs text-indigo-700 md:flex-row md:items-center">
+        <div className="flex flex-col items-start justify-between gap-4 rounded-[1.75rem] border border-[#cba578]/60 bg-[#fff5e7]/85 px-5 py-4 text-xs text-[#6d4630] md:flex-row md:items-center">
           <span>
-            Pro also stores timestamped proof for letters you send, plus a
-            secure document vault for IDs and leases.
+            Pro also stores timestamped proof for letters you send, plus a secure document vault for IDs and leases.
           </span>
-          <Button className="rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500">
+          <Button className="rounded-full border border-[#8f6040]/70 bg-[#432015] px-5 py-2 text-xs font-semibold uppercase tracking-[0.32em] text-[#fff4df] shadow-[0_12px_24px_rgba(67,32,21,0.3)] hover:bg-[#5d2f1e]">
             Enable SMS alerts
           </Button>
         </div>
