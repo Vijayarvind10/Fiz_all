@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "build:gh": "cross-env NEXT_PUBLIC_BASE_PATH=/Fiz_all next build",
-    "export:gh": "rm -rf docs && mv out docs",
+    "export:gh": "rm -rf docs && mv out docs && touch docs/.nojekyll",
     "deploy": "npm run build:gh && npm run export:gh"
   },
   "dependencies": {
