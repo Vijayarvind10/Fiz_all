@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Life Admin Control Center
 
-## Getting Started
+> “Never miss rent notices, renewals, insurance deadlines, doctor checkups, or documents again.”
 
-First, run the development server:
+Life Admin Control Center is a premium Next.js frontend that keeps track of stressful adult-life responsibilities and gives users the exact action to take before anything becomes expensive. The build includes a marketing site, onboarding wizard, timeline dashboard, action modal, and settings page with Pro upsells.
+
+## ✨ Highlights
+
+- **Calm marketing page** with trust messaging, pricing, and example timeline cards.
+- **Multi-step onboarding** that collects housing, ID, car, health, and contact details in under two minutes.
+- **Dashboard timeline** with urgency badges, one-click actions, and tasteful framer-motion animations.
+- **Action modal** that generates landlord letters, call scripts, and renewal checklists (with Pro upsell copy).
+- **Settings panel** for reminder channels, tracked date updates, and document vault teaser.
+- **Shared component library** built on shadcn/ui, Tailwind CSS, lucide-react, and framer-motion micro-interactions.
+
+## 🛠️ Tech Stack
+
+- [Next.js 16](https://nextjs.org/) (App Router, TypeScript, Server Components)
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/) for buttons, cards, dialogs, inputs, switches, and progress indicators
+- [lucide-react](https://lucide.dev/) icons
+- [framer-motion](https://www.framer.com/motion/) for card entrance, modal transitions, and hover micro-lifts
+- [Sonner](https://sonner.emilkowal.ski/) toasts (wired to copy-to-clipboard actions)
+
+## 🚀 Getting Started
+
+Clone the repo and install dependencies:
+
+```bash
+git clone https://github.com/Vijayarvind10/Fiz_all.git
+cd Fiz_all/life-admin-control-center
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` to explore the landing page, onboarding flow, dashboard, and settings.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` – start the local development server
+- `npm run lint` – lint the project with ESLint
+- `npm run build` – create a production build (all routes statically generated)
 
-## Learn More
+## 📁 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+life-admin-control-center/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx              # Marketing landing page
+│   │   ├── onboarding/page.tsx   # Multi-step onboarding wizard
+│   │   ├── dashboard/page.tsx    # Timeline dashboard with mock data
+│   │   └── settings/page.tsx     # Reminder settings & Pro upsell
+│   ├── components/
+│   │   ├── header-nav.tsx
+│   │   ├── obligation-card.tsx
+│   │   ├── action-modal.tsx
+│   │   ├── pro-upsell-card.tsx
+│   │   └── ui/* (shadcn components)
+│   ├── lib/mock-data.ts          # Seed obligations used on the dashboard
+│   └── types/obligation.ts
+└── docs/                         # GitHub Pages microsite (index.md, about.md, etc.)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧪 Mock Data & Behavior
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The dashboard consumes mocked obligations defined in `src/lib/mock-data.ts`. Each obligation includes criticality, due date, action type (`email_template`, `call_script`, `checklist`), and helper text. This mirrors the eventual backend shape described in the product spec (User → Obligation → ReminderSchedule).
 
-## Deploy on Vercel
+Action cards:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Compute “due in X days” messaging with urgency colors.
+- Trigger the `ActionModal` with email templates, call scripts, or checklists.
+- Support `Mark as done` state toggling for future integration with the persistence layer.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌐 GitHub Pages Setup
+
+The repository bundles a lightweight Jekyll site in `/docs` so you can host marketing documentation on GitHub Pages while iterating on the Next.js app locally.
+
+1. Push your changes to GitHub.
+2. In **Settings → Pages**, choose:
+   - **Branch:** `main`
+   - **Folder:** `/docs`
+3. Click **Save**. Pages will publish to `https://Vijayarvind10.github.io/Fiz_all` (allow a few minutes).
+4. Edit `docs/index.md` or `docs/about.md` for further content updates. Layout lives in `docs/_layouts/default.html`.
+
+> Tip: the Next.js app itself is meant for Vercel, Netlify, or any host that supports Node.js. GitHub Pages here is for documentation/marketing handoff only.
+
+## ✅ Deployment Checklist
+
+1. `npm run lint`
+2. `npm run build`
+3. Commit & push to `main`
+4. (Optional) Deploy the Next.js app to Vercel or another hosting provider.
+
+## 🧭 Roadmap Ideas
+
+1. Persist onboarding data and obligations via a database (Prisma + Postgres).
+2. Generate reminder events + transactional email/SMS via Resend, Postmark, or Twilio.
+3. Add analytics on completion rates and unhandled obligations.
+4. Expand action templates with regional logic (state-specific DMV links, etc.).
+5. Layer in custom obligations and attachments for document vault users.
+
+Questions or feedback? Open an issue — this repo is ready to evolve into the production build.
