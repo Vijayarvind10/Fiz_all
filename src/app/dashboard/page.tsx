@@ -8,22 +8,16 @@ import { AlertTriangle } from "lucide-react"
 import { ActionModal } from "@/components/action-modal"
 import { ObligationCard } from "@/components/obligation-card"
 import { ProUpsellCard } from "@/components/pro-upsell-card"
-import { Badge } from "@/components/ui/badge"
 import { mockObligations } from "@/lib/mock-data"
 import { Obligation } from "@/types/obligation"
 
 export default function DashboardPage() {
   const [obligations, setObligations] = useState<Obligation[]>(mockObligations)
-  const [activeObligation, setActiveObligation] = useState<Obligation | null>(
-    null,
-  )
+  const [activeObligation, setActiveObligation] = useState<Obligation | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
 
   const sortedObligations = useMemo(() => {
-    return [...obligations].sort(
-      (a, b) =>
-        new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime(),
-    )
+    return [...obligations].sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
   }, [obligations])
 
   const openModal = (obligation: Obligation) => {
@@ -33,31 +27,37 @@ export default function DashboardPage() {
 
   const toggleObligation = (id: string) => {
     setObligations((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item,
-      ),
+      prev.map((item) => (item.id === id ? { ...item, completed: !item.completed } : item)),
     )
   }
 
   return (
-    <div className="space-y-10">
-      <header className="relative overflow-hidden rounded-[2.75rem] border border-[#d9b58b]/70 bg-[#fff7ea]/70 px-6 py-8 text-[#3b1f16] shadow-[0_14px_32px_rgba(93,58,34,0.18)] md:px-10">
-        <div className="pointer-events-none absolute -left-10 top-0 h-full w-24 timeline-ruler opacity-40" />
-        <div className="pointer-events-none absolute inset-y-0 right-6 hidden w-24 rounded-full border border-[#caa06e]/50 bg-[#f6d9b1]/40 blur-xl md:block" />
-        <Badge className="border border-[#cba578]/60 bg-[#f3d8b3]/80 text-[#603a27]">
+    <div className="space-y-12 text-[#331c14]">
+      <header className="relative overflow-hidden rounded-[3rem] border border-[#caa06e]/60 bg-[rgba(255,247,234,0.9)] px-6 py-10 shadow-[0_24px_65px_rgba(45,21,12,0.2)] backdrop-blur md:px-14 vintage-panel">
+        <div aria-hidden className="pointer-events-none absolute -left-16 top-0 size-48 rounded-full border border-[#d9b58b]/55 bg-[rgba(243,216,179,0.5)] blur-3xl" />
+        <div aria-hidden className="pointer-events-none absolute right-10 top-6 hidden h-24 w-24 rounded-full border border-[#caa06e]/55 bg-[rgba(164,115,83,0.28)] blur-xl md:block" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#cba578]/60 bg-[rgba(243,216,179,0.8)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.32em] text-[#6a3e2a]">
           Next 90 days
-        </Badge>
-        <h1 className="text-4xl font-semibold leading-snug ink-shadow">
+        </div>
+        <h1 className="mt-4 text-4xl font-semibold leading-snug text-[#2f1a12] md:text-[2.9rem]">
           Nothing in your life sneaks up on you anymore.
         </h1>
-        <p className="max-w-2xl text-sm leading-relaxed text-[#6d4630]">
-          This timeline keeps lease notices, renewals, identification, and health checkups under control. We warn you before it
-          gets expensive and hand you the exact script so taking action feels ceremonial instead of frantic.
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[#644030]">
+          This atelier timeline watches leases, IDs, visas, insurance, and health rituals. We warn you before fees or expirations hit
+          and give you the exact script or checklist so action feels intentional — not rushed.
         </p>
+        <div className="mt-6 hidden overflow-hidden rounded-full border border-[#caa06e]/55 bg-[rgba(255,243,225,0.9)] px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.36em] text-[#7a452d] md:block">
+          <div className="deadline-ticker deadline-ticker--scroll">
+            {["Lease letters", "Visa prep", "Insurance calls", "Proof vault"].flatMap((item) => [item, item])
+              .map((item, index) => (
+                <span key={`${item}-${index}`}>{item}</span>
+              ))}
+          </div>
+        </div>
       </header>
 
-      <section className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <div className="grid gap-4 md:grid-cols-2">
+      <section className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+        <div className="grid gap-5 md:grid-cols-2">
           <AnimatePresence>
             {sortedObligations.map((obligation, index) => (
               <ObligationCard
@@ -75,20 +75,18 @@ export default function DashboardPage() {
           initial={{ opacity: 0, x: 18 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1, duration: 0.35, ease: "easeOut" }}
-          className="space-y-5"
+          className="space-y-6"
         >
-          <div className="vintage-card-soft space-y-3 border border-[#d9b58b]/70 px-5 py-5 text-sm text-[#5f3826] shadow-none">
+          <div className="vintage-card space-y-3 border border-[#d9b58b]/70 px-5 py-5 text-sm text-[#5f3826] shadow-none">
             <div className="flex items-start gap-3">
-              <span className="rounded-full border border-[#cba578]/60 bg-[#f6d9b1]/80 p-2 text-[#a46443]">
+              <span className="rounded-full border border-[#cba578]/60 bg-[rgba(246,217,177,0.85)] p-2 text-[#a46443] shadow-[0_10px_22px_rgba(90,55,34,0.18)]">
                 <AlertTriangle className="size-4" />
               </span>
               <div className="space-y-2">
-                <h2 className="text-sm font-semibold uppercase tracking-[0.28em] text-[#7a452d]">
-                  Heads-up cadence
-                </h2>
+                <h2 className="text-sm font-semibold uppercase tracking-[0.28em] text-[#7a452d]">Heads-up cadence</h2>
                 <p>
-                  We send early whispers 30, 7, and 1 day before each deadline. Free plan uses email. Pro adds SMS alerts so you
-                  never miss a legal or financial cutoff.
+                  Ritual reminders land 30, 7, and 1 day before each obligation. Free covers email. Pro layers in SMS so you never miss a
+                  legal or financial cutoff.
                 </p>
               </div>
             </div>
@@ -98,11 +96,7 @@ export default function DashboardPage() {
         </motion.aside>
       </section>
 
-      <ActionModal
-        open={modalOpen}
-        obligation={activeObligation}
-        onClose={() => setModalOpen(false)}
-      />
+      <ActionModal open={modalOpen} obligation={activeObligation} onClose={() => setModalOpen(false)} />
     </div>
   )
 }

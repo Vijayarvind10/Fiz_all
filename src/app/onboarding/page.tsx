@@ -6,7 +6,9 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
+import { ProgressSteps } from "@/components/progress-steps"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import {
   Select,
@@ -16,12 +18,13 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { Checkbox } from "@/components/ui/checkbox"
-import { ProgressSteps } from "@/components/progress-steps"
+import { cn } from "@/lib/utils"
+
+const steps = ["Housing", "IDs", "Transport", "Health", "Alerts"]
 
 type MedicationFrequency = "none" | "30" | "90"
 
-interface OnboardingState {
+type OnboardingState = {
   renting: boolean
   leaseEndDate: string
   leaseNoticeDays: "30" | "60" | "not_sure"
@@ -40,14 +43,6 @@ interface OnboardingState {
   email: string
   phone: string
 }
-
-const steps = [
-  "Housing",
-  "IDs & documents",
-  "Transport",
-  "Health",
-  "Alerts",
-]
 
 const initialState: OnboardingState = {
   renting: true,
@@ -87,10 +82,7 @@ export default function OnboardingPage() {
     return true
   }, [currentStep, form.email])
 
-  const updateField = <Key extends keyof OnboardingState>(
-    key: Key,
-    value: OnboardingState[Key],
-  ) => {
+  const updateField = <Key extends keyof OnboardingState>(key: Key, value: OnboardingState[Key]) => {
     setForm((prev) => ({ ...prev, [key]: value }))
   }
 
@@ -98,7 +90,7 @@ export default function OnboardingPage() {
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1)
     } else {
-      toast.success("Timeline generated. Nothing will surprise you now.")
+      toast.success("Timeline assembled. Welcome to the atelier.")
       router.push("/dashboard")
     }
   }
@@ -112,373 +104,374 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="relative mx-auto w-full max-w-4xl space-y-8 overflow-hidden rounded-[3rem] border border-[#caa06e]/60 bg-[#fff7ea]/85 p-6 shadow-[0_18px_45px_rgba(93,58,34,0.2)] backdrop-blur md:p-10">
-      <div className="pointer-events-none absolute -right-16 top-0 h-32 w-32 rounded-full border border-[#d9b58b]/60 bg-[#f3d8b3]/50 blur-xl" />
-      <div className="pointer-events-none absolute -left-12 bottom-4 h-28 w-28 rounded-full border border-[#d9b58b]/40 bg-[#fff7ea]/40 blur-lg" />
-      <div className="space-y-6">
-        <div className="flex items-center justify-between gap-3">
-          <h1 className="text-3xl font-semibold text-[#3b1f16]">
-            Tell us about the deadlines you’re juggling.
-          </h1>
-          <span className="hidden rounded-full border border-[#cba578]/60 bg-[#f3d8b3]/70 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.32em] text-[#6a3e2a] md:block">
-            Guided ritual
-          </span>
+    <div className="relative mx-auto w-full max-w-4xl space-y-8 overflow-hidden rounded-[3.5rem] border border-[#caa06e]/60 bg-[rgba(255,247,234,0.9)] px-6 py-10 shadow-[0_26px_65px_rgba(53,23,12,0.22)] backdrop-blur md:px-12 md:py-14 vintage-panel">
+      <div aria-hidden className="pointer-events-none absolute -right-16 top-16 size-40 rounded-full border border-[#d9b58b]/55 bg-[rgba(243,216,179,0.45)] blur-3xl" />
+      <div aria-hidden className="pointer-events-none absolute -left-20 bottom-12 size-44 rounded-full border border-[#cba578]/55 bg-[rgba(255,243,225,0.5)] blur-3xl" />
+
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.36em] text-[#805239]">Guided onboarding</p>
+          <h1 className="mt-2 text-3xl font-semibold text-[#2f1a12]">Let’s map the deadlines in your life.</h1>
+          <p className="mt-2 text-sm leading-relaxed text-[#5e3927]">
+            Each step is a quick ritual. Answer once and we’ll watch renewals, notices, and paperwork for you.
+          </p>
         </div>
-        <ProgressSteps steps={steps} currentIndex={currentStep} />
+        <motion.div
+          className="floating-stamp vintage-stamp hidden md:inline-flex"
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          Timeline ritual
+        </motion.div>
+      </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            {...stepMotion}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="space-y-6"
-          >
-            {currentStep === 0 && (
-              <section className="space-y-5">
-                <header className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#805239]">
-                    Housing overview
-                  </p>
-                  <h2 className="text-2xl font-semibold text-[#3b1f16]">
-                    Let’s make sure rent never blindsides you.
-                  </h2>
-                  <p className="text-sm leading-relaxed text-[#6d4630]">
-                    This helps us warn you before notice deadlines or renewal fees hit.
-                  </p>
-                </header>
+      <ProgressSteps steps={steps} currentIndex={currentStep} />
 
-                <div className="flex items-center justify-between rounded-[1.75rem] border border-[#d9b58b]/70 bg-[#fff3e1]/80 px-4 py-3 text-sm text-[#5f3826]">
-                  <span className="font-medium">Do you rent a place right now?</span>
-                  <Switch
-                    checked={form.renting}
-                    onCheckedChange={(checked) => updateField("renting", checked)}
-                    aria-label="Toggle renting status"
-                  />
-                </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentStep}
+          {...stepMotion}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="space-y-6"
+        >
+          {currentStep === 0 && (
+            <StepSection
+              badge="Housing stewardship"
+              title="Safeguard your lease and notice deadlines."
+              description="Notice lead times change everything. Tell us the cadence so we can prep letters before they’re due."
+            >
+              <ToggleRow
+                label="Do you currently rent a home?"
+                checked={form.renting}
+                onCheckedChange={(value) => updateField("renting", value)}
+              />
 
-                {form.renting ? (
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <VintageLabel label="Lease end date">
-                      <Input
-                        type="date"
-                        value={form.leaseEndDate}
-                        onChange={(event) =>
-                          updateField("leaseEndDate", event.target.value)
-                        }
-                      />
-                    </VintageLabel>
+              {form.renting ? (
+                <div className="grid gap-4 md:grid-cols-2">
+                  <VintageField label="Lease end date">
+                    <Input
+                      type="date"
+                      value={form.leaseEndDate}
+                      onChange={(event) => updateField("leaseEndDate", event.target.value)}
+                    />
+                  </VintageField>
 
-                    <VintageLabel label="Notice period">
-                      <Select
-                        value={form.leaseNoticeDays}
-                        onValueChange={(value) =>
-                          updateField(
-                            "leaseNoticeDays",
-                            value as OnboardingState["leaseNoticeDays"],
-                          )
-                        }
-                      >
-                        <SelectTrigger className="rounded-2xl border-[#d9b58b]/70 bg-[#fffaf1]/80">
-                          <SelectValue placeholder="Select notice period" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-2xl border border-[#d9b58b]/70 bg-[#fff7ea] text-[#5f3826]">
-                          <SelectItem value="30">30 days</SelectItem>
-                          <SelectItem value="60">60 days</SelectItem>
-                          <SelectItem value="not_sure">Not sure</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </VintageLabel>
-
-                    <VintageLabel
-                      className="md:col-span-2"
-                      label="Landlord / property manager email (optional)"
+                  <VintageField label="Notice period">
+                    <Select
+                      value={form.leaseNoticeDays}
+                      onValueChange={(value) =>
+                        updateField("leaseNoticeDays", value as OnboardingState["leaseNoticeDays"])
+                      }
                     >
-                      <Input
-                        type="email"
-                        inputMode="email"
-                        placeholder="manager@leasingco.com"
-                        value={form.landlordEmail}
-                        onChange={(event) =>
-                          updateField("landlordEmail", event.target.value)
-                        }
-                      />
-                    </VintageLabel>
-                  </div>
-                ) : (
-                  <div className="rounded-[1.75rem] border border-[#a8be96]/60 bg-[#e6f0d8]/80 px-4 py-4 text-sm text-[#486135]">
-                    When housing is stable, we note the date you last moved so you still get seasonal upkeep nudges.
-                  </div>
-                )}
-              </section>
-            )}
+                      <SelectTrigger className="rounded-2xl border-[#d9b58b]/70 bg-[rgba(255,250,241,0.9)]">
+                        <SelectValue placeholder="Select notice period" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-2xl border border-[#d9b58b]/70 bg-[rgba(255,247,234,0.98)] text-[#5f3826]">
+                        <SelectItem value="30">30 days</SelectItem>
+                        <SelectItem value="60">60 days</SelectItem>
+                        <SelectItem value="not_sure">Not sure</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </VintageField>
 
-            {currentStep === 1 && (
-              <section className="space-y-5">
-                <header className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#805239]">
-                    IDs & travel
-                  </p>
-                  <h2 className="text-2xl font-semibold text-[#3b1f16]">
-                    Keep your credentials current everywhere you go.
-                  </h2>
-                  <p className="text-sm leading-relaxed text-[#6d4630]">
-                    We’ll remind you early enough to renew calmly or gather new documents without chaos.
-                  </p>
-                </header>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <ToggleCard
-                    label="Driver’s license on file?"
-                    checked={form.hasDriverLicense}
-                    onCheckedChange={(value) => updateField("hasDriverLicense", value)}
-                  />
-
-                  <ToggleCard
-                    label="Passport available?"
-                    checked={form.hasPassport}
-                    onCheckedChange={(value) => updateField("hasPassport", value)}
-                  />
-
-                  {form.hasDriverLicense && (
-                    <VintageLabel label="License expires">
-                      <Input
-                        type="date"
-                        value={form.driverLicenseExpiry}
-                        onChange={(event) =>
-                          updateField("driverLicenseExpiry", event.target.value)
-                        }
-                      />
-                    </VintageLabel>
-                  )}
-
-                  {form.hasPassport && (
-                    <VintageLabel label="Passport expires">
-                      <Input
-                        type="date"
-                        value={form.passportExpiry}
-                        onChange={(event) =>
-                          updateField("passportExpiry", event.target.value)
-                        }
-                      />
-                    </VintageLabel>
-                  )}
-
-                  <ToggleCard
-                    className="md:col-span-2"
-                    label="Do you rely on a visa or work authorization?"
-                    checked={form.hasVisa}
-                    onCheckedChange={(value) => updateField("hasVisa", value)}
-                  />
-
-                  {form.hasVisa && (
-                    <VintageLabel label="Visa / OPT expiry">
-                      <Input
-                        type="date"
-                        value={form.visaExpiry}
-                        onChange={(event) =>
-                          updateField("visaExpiry", event.target.value)
-                        }
-                      />
-                    </VintageLabel>
-                  )}
-                </div>
-              </section>
-            )}
-
-            {currentStep === 2 && (
-              <section className="space-y-5">
-                <header className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#805239]">
-                    Transport protection
-                  </p>
-                  <h2 className="text-2xl font-semibold text-[#3b1f16]">
-                    Let’s keep the wheels (and paperwork) spinning.
-                  </h2>
-                  <p className="text-sm leading-relaxed text-[#6d4630]">
-                    Share what you drive so we can time renewals, inspections, and insurance.
-                  </p>
-                </header>
-
-                <ToggleCard
-                  label="Do you own a car?"
-                  checked={form.ownsCar}
-                  onCheckedChange={(value) => updateField("ownsCar", value)}
-                />
-
-                {form.ownsCar && (
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <VintageLabel label="Insurance renews">
-                      <Input
-                        type="date"
-                        value={form.carInsuranceRenewal}
-                        onChange={(event) =>
-                          updateField("carInsuranceRenewal", event.target.value)
-                        }
-                      />
-                    </VintageLabel>
-                    <VintageLabel label="Registration renews">
-                      <Input
-                        type="date"
-                        value={form.carRegistrationRenewal}
-                        onChange={(event) =>
-                          updateField("carRegistrationRenewal", event.target.value)
-                        }
-                      />
-                    </VintageLabel>
-                  </div>
-                )}
-              </section>
-            )}
-
-            {currentStep === 3 && (
-              <section className="space-y-5">
-                <header className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#805239]">
-                    Health cadence
-                  </p>
-                  <h2 className="text-2xl font-semibold text-[#3b1f16]">
-                    We’ll keep your checkups gentle and on time.
-                  </h2>
-                  <p className="text-sm leading-relaxed text-[#6d4630]">
-                    A little preventative tracking goes a long way toward staying ahead of copays and surprise bills.
-                  </p>
-                </header>
-
-                <VintageLabel label="Last dentist visit">
-                  <Input
-                    type="month"
-                    value={form.lastDentistVisit}
-                    onChange={(event) =>
-                      updateField("lastDentistVisit", event.target.value)
-                    }
-                  />
-                </VintageLabel>
-
-                <div className="space-y-3 rounded-[1.75rem] border border-[#d9b58b]/70 bg-[#fff4df]/85 px-4 py-4 text-sm text-[#5f3826]">
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#7a452d]">
-                    Medication refills
-                  </span>
-                  <p>How often should we remind you to refill prescriptions?</p>
-                  <div className="flex flex-wrap gap-3 text-[13px] font-semibold">
-                    {[
-                      { value: "none", label: "No reminders" },
-                      { value: "30", label: "Every month" },
-                      { value: "90", label: "Every quarter" },
-                    ].map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => updateField("medicationFrequency", option.value as MedicationFrequency)}
-                        className={`rounded-full border px-4 py-2 transition ${
-                          form.medicationFrequency === option.value
-                            ? "border-[#8f6040]/70 bg-[#432015] text-[#fff4df]"
-                            : "border-[#cba578]/60 bg-[#fffaf1]/80 text-[#6d4630] hover:bg-[#f8e4ca]"
-                        }`}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {currentStep === 4 && (
-              <section className="space-y-5">
-                <header className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#805239]">
-                    Final touches
-                  </p>
-                  <h2 className="text-2xl font-semibold text-[#3b1f16]">
-                    Where should we send the gentle nudges?
-                  </h2>
-                  <p className="text-sm leading-relaxed text-[#6d4630]">
-                    Enter contact details for reminders. SMS is optional unless you upgrade to Pro.
-                  </p>
-                </header>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <VintageLabel label="Email">
+                  <VintageField className="md:col-span-2" label="Landlord / property manager email (optional)">
                     <Input
                       type="email"
                       inputMode="email"
-                      value={form.email}
-                      placeholder="you@example.com"
-                      onChange={(event) => updateField("email", event.target.value)}
+                      placeholder="manager@leasingco.com"
+                      value={form.landlordEmail}
+                      onChange={(event) => updateField("landlordEmail", event.target.value)}
                     />
-                  </VintageLabel>
-                  <VintageLabel label="Phone (optional)">
+                  </VintageField>
+                </div>
+              ) : (
+                <InfoPanel>
+                  No lease? We’ll keep ritual nudges gentle — move prep, seasonal upkeep, and proof reminders without the rent timer.
+                </InfoPanel>
+              )}
+            </StepSection>
+          )}
+
+          {currentStep === 1 && (
+            <StepSection
+              badge="Identity & travel"
+              title="Keep credentials valid wherever you go."
+              description="Driver’s license, passport, and visa statuses get longer lead times so you never scramble."
+            >
+              <div className="grid gap-4 md:grid-cols-2">
+                <ToggleCard
+                  label="Driver’s license on file"
+                  description="We’ll prep renewal steps before scheduling windows close."
+                  checked={form.hasDriverLicense}
+                  onCheckedChange={(value) => updateField("hasDriverLicense", value)}
+                />
+                <ToggleCard
+                  label="Passport available"
+                  description="Useful for travel, visas, and major ID confirmation."
+                  checked={form.hasPassport}
+                  onCheckedChange={(value) => updateField("hasPassport", value)}
+                />
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                {form.hasDriverLicense && (
+                  <VintageField label="Driver’s license expiry">
                     <Input
-                      type="tel"
-                      inputMode="tel"
-                      placeholder="(555) 123-4567"
-                      value={form.phone}
-                      onChange={(event) => updateField("phone", event.target.value)}
+                      type="date"
+                      value={form.driverLicenseExpiry}
+                      onChange={(event) => updateField("driverLicenseExpiry", event.target.value)}
                     />
-                  </VintageLabel>
-                </div>
+                  </VintageField>
+                )}
 
-                <div className="flex items-center gap-3 rounded-[1.75rem] border border-[#d9b58b]/70 bg-[#fff3e1]/80 px-4 py-3 text-sm text-[#5f3826]">
-                  <Checkbox id="promo" />
-                  <label htmlFor="promo" className="cursor-pointer">
-                    Send me curated templates and deadline cheat-sheets each season.
-                  </label>
-                </div>
-              </section>
-            )}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+                {form.hasPassport && (
+                  <VintageField label="Passport expiry">
+                    <Input
+                      type="date"
+                      value={form.passportExpiry}
+                      onChange={(event) => updateField("passportExpiry", event.target.value)}
+                    />
+                  </VintageField>
+                )}
+              </div>
 
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <ToggleCard
+                label="On a visa / work authorization"
+                description="We’ll prep OPT, EAD, or visa renewal checklists a month before filings."
+                checked={form.hasVisa}
+                onCheckedChange={(value) => updateField("hasVisa", value)}
+              />
+
+              {form.hasVisa && (
+                <VintageField label="Visa / work authorization expiry">
+                  <Input
+                    type="date"
+                    value={form.visaExpiry}
+                    onChange={(event) => updateField("visaExpiry", event.target.value)}
+                  />
+                </VintageField>
+              )}
+            </StepSection>
+          )}
+
+          {currentStep === 2 && (
+            <StepSection
+              badge="Transport"
+              title="Keep the DMV and insurer calm."
+              description="We watch when to call for new rates, renew tags, and prove insurance."
+            >
+              <ToggleRow
+                label="Do you currently own a car?"
+                checked={form.ownsCar}
+                onCheckedChange={(value) => updateField("ownsCar", value)}
+              />
+
+              {form.ownsCar ? (
+                <div className="grid gap-4 md:grid-cols-2">
+                  <VintageField label="Car insurance renews">
+                    <Input
+                      type="date"
+                      value={form.carInsuranceRenewal}
+                      onChange={(event) => updateField("carInsuranceRenewal", event.target.value)}
+                    />
+                  </VintageField>
+                  <VintageField label="Registration / tags due">
+                    <Input
+                      type="month"
+                      value={form.carRegistrationRenewal}
+                      onChange={(event) => updateField("carRegistrationRenewal", event.target.value)}
+                    />
+                  </VintageField>
+                </div>
+              ) : (
+                <InfoPanel>We’ll stay quiet about car reminders. You can add one later if wheels enter the picture.</InfoPanel>
+              )}
+            </StepSection>
+          )}
+
+          {currentStep === 3 && (
+            <StepSection
+              badge="Health & refills"
+              title="Stay ahead of preventative care."
+              description="Dentist cadence, physicals, and medication refills are good reasons to ping you kindly."
+            >
+              <div className="grid gap-4 md:grid-cols-2">
+                <VintageField label="Last dentist visit">
+                  <Input
+                    type="month"
+                    value={form.lastDentistVisit}
+                    onChange={(event) => updateField("lastDentistVisit", event.target.value)}
+                  />
+                </VintageField>
+
+                <VintageField label="Medication refills">
+                  <Select
+                    value={form.medicationFrequency}
+                    onValueChange={(value) => updateField("medicationFrequency", value as MedicationFrequency)}
+                  >
+                    <SelectTrigger className="rounded-2xl border-[#d9b58b]/70 bg-[rgba(255,250,241,0.9)]">
+                      <SelectValue placeholder="Choose cadence" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-2xl border border-[#d9b58b]/70 bg-[rgba(255,247,234,0.98)] text-[#5f3826]">
+                      <SelectItem value="none">No repeating medication</SelectItem>
+                      <SelectItem value="30">Every 30 days</SelectItem>
+                      <SelectItem value="90">Every 90 days</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </VintageField>
+              </div>
+            </StepSection>
+          )}
+
+          {currentStep === 4 && (
+            <StepSection
+              badge="Delivery"
+              title="Where should we send the early warnings?"
+              description="We only contact you for important deadlines. Email is required; SMS is optional and part of Pro."
+            >
+              <div className="grid gap-4">
+                <VintageField label="Email">
+                  <Input
+                    required
+                    type="email"
+                    placeholder="you@example.com"
+                    value={form.email}
+                    onChange={(event) => updateField("email", event.target.value)}
+                  />
+                </VintageField>
+
+                <VintageField label="Phone (for urgent SMS, optional)">
+                  <Input
+                    type="tel"
+                    inputMode="tel"
+                    placeholder="(555) 123-4567"
+                    value={form.phone}
+                    onChange={(event) => updateField("phone", event.target.value)}
+                  />
+                </VintageField>
+
+                <div className="rounded-3xl border border-[#cba578]/60 bg-[rgba(255,243,225,0.9)] px-4 py-4 text-xs text-[#5f3826]">
+                  <p className="font-semibold uppercase tracking-[0.28em] text-[#7a452d]">Promise</p>
+                  <p className="mt-2 leading-relaxed">
+                    We only store the dates you give us. No bank logins. No medical portals. Just calm, respectful reminders.
+                  </p>
+                </div>
+              </div>
+            </StepSection>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="flex flex-col gap-3 pt-4 md:flex-row md:justify-between">
         <Button
           variant="outline"
           onClick={goBack}
-          className="rounded-full border border-[#caa06e]/70 bg-[#fffaf1]/80 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-[#6a3e2a] hover:bg-[#f8e4ca]"
+          className="rounded-full border border-[#caa06e]/70 bg-[rgba(255,247,234,0.9)] px-6 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#6a3e2a] shadow-[0_12px_24px_rgba(58,29,15,0.12)] hover:bg-[rgba(248,228,202,0.95)]"
         >
-          {currentStep === 0 ? "Back to home" : "Go back"}
+          {currentStep === 0 ? "Back to atelier" : "Previous step"}
         </Button>
         <Button
-          disabled={!canAdvance}
           onClick={goNext}
-          className="rounded-full border border-[#8f6040]/70 bg-[#432015] px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-[#fff4df] shadow-[0_14px_32px_rgba(67,32,21,0.3)] hover:bg-[#5d2f1e] disabled:border-[#d9b58b]/50 disabled:bg-[#cba578]/50"
+          disabled={!canAdvance}
+          className="rounded-full border border-[#9f694a]/60 bg-[#412215] px-8 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-[#fff5e7] shadow-[0_18px_32px_rgba(45,20,12,0.32)] hover:bg-[#5d2f1e] disabled:cursor-not-allowed disabled:border-[#d7b795]/50 disabled:bg-[rgba(97,59,41,0.4)] disabled:text-[rgba(255,244,229,0.7)]"
         >
-          {currentStep === steps.length - 1 ? "Create my timeline" : "Next step"}
+          {currentStep === steps.length - 1 ? "Create my timeline" : "Next"}
         </Button>
       </div>
     </div>
   )
 }
 
-interface VintageLabelProps {
+function StepSection({
+  badge,
+  title,
+  description,
+  children,
+}: {
+  badge: string
+  title: string
+  description: string
+  children: React.ReactNode
+}) {
+  return (
+    <section className="space-y-5">
+      <header className="space-y-2">
+        <span className="inline-flex items-center gap-2 rounded-full border border-[#cba578]/60 bg-[rgba(243,216,179,0.8)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.32em] text-[#6a3e2a]">
+          {badge}
+        </span>
+        <h2 className="text-2xl font-semibold text-[#2f1a12]">{title}</h2>
+        <p className="text-sm leading-relaxed text-[#644030]">{description}</p>
+      </header>
+      <div className="space-y-4">{children}</div>
+    </section>
+  )
+}
+
+function VintageField({
+  label,
+  children,
+  className,
+}: {
   label: string
   children: React.ReactNode
   className?: string
+}) {
+  return (
+    <label className={cn("space-y-2 rounded-[1.75rem] border border-[#d9b58b]/70 bg-[rgba(255,249,239,0.92)] px-4 py-4 text-sm text-[#5f3826]", className)}>
+      <span className="block text-xs font-semibold uppercase tracking-[0.26em] text-[#7a452d]">{label}</span>
+      <div className="rounded-[1.25rem] border border-[#e6caa3]/60 bg-white/80 px-3 py-2 shadow-inner">
+        {children}
+      </div>
+    </label>
+  )
 }
 
-const VintageLabel = ({ label, children, className }: VintageLabelProps) => (
-  <label className={`flex flex-col gap-2 text-sm font-medium text-[#5f3826] ${className ?? ""}`}>
-    {label}
-    {children}
-  </label>
-)
-
-interface ToggleCardProps {
+function ToggleRow({
+  label,
+  checked,
+  onCheckedChange,
+}: {
   label: string
   checked: boolean
-  onCheckedChange: (checked: boolean) => void
-  className?: string
+  onCheckedChange: (value: boolean) => void
+}) {
+  return (
+    <div className="flex items-center justify-between rounded-[1.75rem] border border-[#d9b58b]/70 bg-[rgba(255,243,225,0.9)] px-4 py-3 text-sm text-[#5f3826]">
+      <span className="font-medium">{label}</span>
+      <Switch checked={checked} onCheckedChange={onCheckedChange} aria-label={label} />
+    </div>
+  )
 }
 
-const ToggleCard = ({ label, checked, onCheckedChange, className }: ToggleCardProps) => (
-  <div
-    className={`flex items-center justify-between rounded-[1.75rem] border px-4 py-3 text-sm text-[#5f3826] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] ${
-      checked
-        ? "border-[#8f6040]/70 bg-[#f6d9b1]/80"
-        : "border-[#d9b58b]/70 bg-[#fff4df]/70"
-    } ${className ?? ""}`}
-  >
-    <span className="font-medium">{label}</span>
-    <Switch checked={checked} onCheckedChange={onCheckedChange} />
-  </div>
-)
+function ToggleCard({
+  label,
+  description,
+  checked,
+  onCheckedChange,
+}: {
+  label: string
+  description: string
+  checked: boolean
+  onCheckedChange: (value: boolean) => void
+}) {
+  return (
+    <label className="flex h-full flex-col gap-3 rounded-[1.75rem] border border-[#d9b58b]/70 bg-[rgba(255,243,225,0.92)] px-4 py-4 text-sm text-[#5f3826]">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <span className="text-xs font-semibold uppercase tracking-[0.26em] text-[#7a452d]">{label}</span>
+          <p className="mt-2 text-sm leading-relaxed">{description}</p>
+        </div>
+        <Checkbox className="mt-1 rounded-md border-[#b9895c]/70" checked={checked} onCheckedChange={onCheckedChange} />
+      </div>
+    </label>
+  )
+}
+
+function InfoPanel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="rounded-[1.75rem] border border-[#a8be96]/60 bg-[rgba(230,240,216,0.9)] px-4 py-4 text-sm text-[#3d5631]">
+      {children}
+    </div>
+  )
+}

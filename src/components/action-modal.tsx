@@ -34,7 +34,7 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(44,25,16,0.55)] backdrop-blur-md px-4 py-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(35,18,11,0.55)] backdrop-blur-md px-4 py-6"
           role="dialog"
           aria-modal="true"
         >
@@ -43,11 +43,11 @@ export const ActionModal = ({ open, obligation, onClose }: ActionModalProps) => 
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.96, opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="relative flex w-full max-w-2xl flex-col overflow-hidden rounded-[2.5rem] border border-[#cba578]/70 bg-[#fff7ea]/95 shadow-[0_40px_90px_rgba(39,18,12,0.4)]"
+            className="relative flex w-full max-w-2xl flex-col overflow-hidden rounded-[2.75rem] border border-[#cba578]/70 bg-[rgba(255,247,234,0.95)] shadow-[0_44px_100px_rgba(32,14,9,0.45)]"
           >
-            <div className="pointer-events-none absolute -top-20 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full border border-[#d9b58b]/60 bg-[#fff3e1]/60 blur-2xl" />
-            <div className="pointer-events-none absolute inset-0 timeline-ruler opacity-15" />
-            <div className="flex items-start justify-between border-b border-[#d9b58b]/70 bg-[#f6d9b1]/50 px-6 py-5">
+            <div aria-hidden className="pointer-events-none absolute -top-20 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full border border-[#d9b58b]/60 bg-[rgba(255,243,225,0.6)] blur-2xl" />
+            <div aria-hidden className="striped-overlay pointer-events-none absolute inset-0 opacity-15" />
+            <div className="flex items-start justify-between border-b border-[#d9b58b]/70 bg-[rgba(246,217,177,0.55)] px-6 py-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7a452d]">
                   Next step

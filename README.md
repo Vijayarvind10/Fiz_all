@@ -6,12 +6,12 @@ Life Admin Control Center is a premium Next.js frontend that keeps track of stre
 
 ## ✨ Highlights
 
-- **Vintage hero experience** wrapped in aurora grids, vignette textures, and rotating headline letterforms that instantly set a nostalgic tone.
+- **Vintage atelier experience** wrapped in aurora glows, vignette textures, and rotating deadline glyphs that set the ritual tone from the first screen.
 - **Multi-step onboarding** that collects housing, ID, car, health, and contact details in under two minutes.
 - **Dashboard timeline** with urgency badges, animated deadline halos, and tasteful framer-motion sequences.
 - **Action modal** that generates landlord letters, call scripts, and renewal checklists (with Pro upsell copy).
 - **Settings panel** for reminder channels, tracked date updates, and document vault teaser.
-- **Shared component library** built on shadcn/ui, Tailwind CSS, lucide-react, and framer-motion micro-interactions.
+- **Shared component library** built on shadcn/ui, Tailwind CSS, lucide-react, framer-motion, and a bespoke set of “vintage” utilities (panels, timelines, dials, stamps).
 
 ## 🛠️ Tech Stack
 
@@ -21,6 +21,7 @@ Life Admin Control Center is a premium Next.js frontend that keeps track of stre
 - [lucide-react](https://lucide.dev/) icons
 - [framer-motion](https://www.framer.com/motion/) for card entrance, modal transitions, and hover micro-lifts
 - [Sonner](https://sonner.emilkowal.ski/) toasts (wired to copy-to-clipboard actions)
+- [@fontsource/playfair-display](https://fontsource.org/fonts/playfair-display), [@fontsource/red-hat-text](https://fontsource.org/fonts/red-hat-text), [@fontsource/space-mono](https://fontsource.org/fonts/space-mono) — bundled locally so the aesthetic ships with static exports
 
 ## 🚀 Getting Started
 

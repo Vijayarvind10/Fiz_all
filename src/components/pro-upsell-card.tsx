@@ -5,10 +5,10 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export const ProUpsellCard = () => {
   return (
-    <Card className="relative overflow-hidden rounded-[2.25rem] border border-[#b87a4c]/70 bg-[#f6d9b1]/90 shadow-none">
-      <div className="pointer-events-none absolute -right-10 top-6 h-32 w-32 rounded-full border border-[#caa06e]/50 bg-[#fff7ea]/60 blur-2xl" />
-      <div className="pointer-events-none absolute inset-0 timeline-ruler opacity-20" />
+    <Card className="relative overflow-hidden rounded-[2.25rem] border border-[#b87a4c]/70 bg-[rgba(246,217,177,0.92)] shadow-[0_16px_38px_rgba(95,60,39,0.18)]">
+      <div className="pointer-events-none absolute -right-10 top-6 h-32 w-32 rounded-full border border-[#caa06e]/50 bg-[rgba(255,247,234,0.6)] blur-2xl" />
       <CardContent className="relative flex flex-col gap-5 p-6">
+        <div aria-hidden className="striped-overlay pointer-events-none absolute inset-0 opacity-25" />
         <div className="flex items-start gap-4">
           <div className="floating-stamp rounded-full border border-[#a46443]/60 bg-[#fff4df]/80 p-2.5 text-[#a46443] shadow-[0_10px_20px_rgba(95,60,39,0.18)]">
             <ShieldAlert className="size-5" />

@@ -1,12 +1,11 @@
 "use client"
 
-import { useMemo } from "react"
+import { CSSProperties, useMemo } from "react"
 
 import { motion } from "framer-motion"
 import { CalendarClock, CheckCheck } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { Obligation } from "@/types/obligation"
@@ -16,16 +15,16 @@ const criticalityStyles: Record<
   { ring: string; badge: string }
 > = {
   high: {
-    ring: "ring-[rgba(196,86,64,0.32)]",
-    badge: "bg-[#f8cec1] text-[#8f3d2d]",
+    ring: "border-[#d79b83]/70",
+    badge: "bg-[rgba(248,206,193,0.9)] text-[#8f3d2d]",
   },
   medium: {
-    ring: "ring-[rgba(201,160,115,0.36)]",
-    badge: "bg-[#f6e1b8] text-[#7a531d]",
+    ring: "border-[#d9b58b]/70",
+    badge: "bg-[rgba(246,225,184,0.9)] text-[#7a531d]",
   },
   low: {
-    ring: "ring-[rgba(168,190,150,0.36)]",
-    badge: "bg-[#e6f0d8] text-[#486135]",
+    ring: "border-[#b6c9a5]/70",
+    badge: "bg-[rgba(230,240,216,0.9)] text-[#486135]",
   },
 }
 
@@ -73,21 +72,18 @@ export const ObligationCard = ({
     const clamped = Math.min(Math.max(daysLeft, 0), 90)
     return 1 - clamped / 90
   }, [daysLeft])
-  const arcDegrees = Math.round(completionRatio * 360)
+  const dialPercent = Math.round(completionRatio * 100)
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.25, ease: "easeOut" }}
-      className={cn(
-        "relative h-full",
-        obligation.completed && "opacity-55 grayscale",
-      )}
+      className={cn("relative h-full", obligation.completed && "opacity-55 grayscale")}
     >
       <Card
         className={cn(
-          "flex h-full flex-col justify-between rounded-[2.25rem] border border-[#d9b58b]/70 bg-[#fff9ef]/90 shadow-[0_16px_28px_rgba(95,60,39,0.18)] transition hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,60,39,0.22)]",
+          "vintage-card flex h-full flex-col justify-between border bg-[rgba(255,249,239,0.94)] shadow-[0_16px_32px_rgba(95,60,39,0.16)] transition hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(95,60,39,0.2)]",
           style.ring,
         )}
       >
@@ -102,19 +98,20 @@ export const ObligationCard = ({
               </p>
             </div>
             <div className="flex flex-col items-end gap-2">
-              <Badge className={cn("text-[11px] font-semibold uppercase tracking-[0.32em]", style.badge)}>
+              <span
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full border border-[#cba578]/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.32em]",
+                  style.badge,
+                )}
+              >
                 {urgencyLabel}
-              </Badge>
-              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.26em] text-[#7a452d]">
+              </span>
+              <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.26em] text-[#7a452d]">
                 <div
-                  className="relative flex size-10 items-center justify-center rounded-full border border-[#d9b58b]/70 bg-[#fff9ef]/70"
-                  style={{
-                    background: `conic-gradient(rgba(124, 63, 45, 0.5) ${arcDegrees}deg, rgba(255, 247, 236, 0.8) ${arcDegrees}deg)`,
-                  }}
+                  className="deadline-dial"
+                  style={{ "--dial-fill": `${Math.min(Math.max(dialPercent, 0), 100)}%` } as CSSProperties}
                 >
-                  <span className="text-[10px] font-semibold text-[#4a2a1d]">
-                    {Math.max(daysLeft, 0)}d
-                  </span>
+                  {Math.max(daysLeft, 0)}d
                 </div>
                 Watchlist
               </div>
